@@ -2,37 +2,32 @@ import { useQuery, gql } from "@apollo/client";
 
 export function DisplayLocations() {
   const GET_LOCATIONS = gql`
-    query GetLocations {
-      locations {
+    query getAll {
+      pokemons(first: 15) {
         id
         name
-        description
-        photo
+        fleeRate
       }
     }
   `;
-  
-  interface IData {
-    locations: {
+
+  interface IPokemons {
+    pokemons: {
       id: number;
       name: string;
-      description: string;
-      photo: string;
+      fleeRate: number;
     }[];
   }
-  const { loading, error, data } = useQuery<IData>(GET_LOCATIONS);
+
+  const { loading, error, data } = useQuery<IPokemons>(GET_LOCATIONS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;
-
-  return data?.locations.map(({ id, name, description, photo }) => (
+  return data?.pokemons.map(({ id, name, fleeRate }) => (
     <div key={id}>
-      <h3>{name}</h3>
-      <img width="400" height="250" alt="location-reference" src={`${photo}`} />
-      <br />
-      <b>About this location:</b>
-      <p>{description}</p>
-      <br />
+      <p>
+        {name} {fleeRate}
+      </p>
     </div>
   ));
 }
