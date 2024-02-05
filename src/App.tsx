@@ -7,10 +7,10 @@ function App() {
     <div>
       <h2>My first Apollo app 🚀</h2>
       <DisplayLocations />
-      {document.getElementById('modal') ? createPortal(
+      {createPortal(
         <p>This child is placed in the document body.</p>,
-        document.getElementById('modal')
-      ):''}
+        document.getElementById("modal") || document.body
+      )}
     </div>
   );
 }
